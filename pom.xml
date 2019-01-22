@@ -4,7 +4,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>it.just</groupId>
 	<artifactId>practicessssss</artifactId>
-	<name>justPractice</name>
+	<name>justPracticeP</name>
 	<packaging>war</packaging>
 	<version>1.0.0-BUILD-SNAPSHOT</version>
 	<properties>
