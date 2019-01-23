@@ -13,6 +13,7 @@ ${num }
 <form action="gogo" method="get">
 <input type="text" name = "num">
 <input type="submit" value="go">
+new data
 </form>
 </body>
 </html>
