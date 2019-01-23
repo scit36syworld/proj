@@ -10,7 +10,7 @@
 	
 <h1>
 	Hello world!<br>
-	nope  
+
 </h1>
 ${num }
 <form action="gogo" method="get">
