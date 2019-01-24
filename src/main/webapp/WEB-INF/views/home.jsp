@@ -9,14 +9,22 @@
 	
 	
 <h1>
-	Hello world!<br>
-
+	Syworld!<br>
 </h1>
-${num }
-<form action="gogo" method="get">
-<input type="text" name = "num">
-<input type="submit" value="go">
-new data
+<form action="login">
+	<table>
+		<tr>
+			<td>ID</td>
+		</tr>
+		<tr>
+			<td>PW</td>
+		</tr>
+		<tr>
+			<td></td>
+		</tr>
+	</table>
 </form>
+<input type="button" value="회원가입" onclick="location.href='signup'">
+
 </body>
 </html>

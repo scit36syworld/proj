@@ -3,3 +3,10 @@
  	자유게시판/클럽게시판쪽 deleteFlag를 새로 넣고 삭제시 flag 1 
  	방명록쪽은 삭제시 delete하지 않고 update 로 content를 [삭제된 게시물입니다] 로 수정하는 방향으로
  
+ 190123_1533 @pika
+ 	회원가입단 1차작업작업
+ 	mybatis 설정
+ 	vo.Userinfo
+ 	jsp-> signup.jsp, idcheck.jsp 추가
+ 	Signup 관련 Mapper, DAO, controller 추가.
+ 	//회원가입단 동작확인 아직
