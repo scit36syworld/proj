@@ -5,8 +5,12 @@
 <configuration>
 	<typeAliases>
 		<typeAlias type="it.just.practicessssss.vo.Userinfo" alias="Userinfo" />
+		<typeAlias type="it.just.practicessssss.vo.Minihome" alias="Minihome" />
+		<typeAlias type="it.just.practicessssss.vo.Minihits" alias="Minihits" />
 	</typeAliases>
 	<mappers>
 		<mapper resource="signupMapper.xml" />
+		<mapper resource="minihomeMapper.xml" />
+		<mapper resource="minihitsMapper.xml" />
 	</mappers>
 </configuration>

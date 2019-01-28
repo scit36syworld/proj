@@ -4,7 +4,7 @@
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <!-- SQL -->
-<mapper namespace="it.just.practicessssss.dao.SignupMapper">
+<mapper namespace="it.just.practicessssss.mapper.SignupMapper">
 	<select id="idcheck" parameterType="String" resultType="int">
 		select 
 			count(userno)

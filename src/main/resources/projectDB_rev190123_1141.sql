@@ -1,6 +1,6 @@
--- Å×ÀÌºí »èÁ¦
+-- í…Œì´ë¸” ì‚­ì œ
 drop table ClubLayout;
-drop table Clubmember_level;
+drop table Clubmemberlevel;
 drop table ClubMember;
 drop table ClubBoardComment;
 drop table ClubBoard;
@@ -15,12 +15,13 @@ drop table UserFriends;
 drop table FileMng;
 drop table UserInfo;
 
--- ½ÃÄö½º »èÁ¦
+-- ì‹œí€€ìŠ¤ ì‚­ì œ
 drop sequence clubmember_level_Seq;
 drop sequence clubmember_Seq;
 drop sequence clubboardComments_Seq;
 drop sequence clubboard_Seq;
 drop sequence club_Seq;
+drop sequence boardComments_Seq;
 drop sequence board_Seq;
 drop sequence guestBookComment_Seq;
 drop sequence guestBook_Seq;
@@ -31,8 +32,8 @@ drop SEQUENCE file_seq;
 drop SEQUENCE userNo_Seq;
 
 
--- Å×ÀÌºí »ı¼º
---À¯ÀúÁ¤º¸ Å×ÀÌºí
+-- í…Œì´ë¸” ìƒì„±
+--ìœ ì €ì •ë³´ í…Œì´ë¸”
 create table UserInfo(
     userNo	        number          primary key
     , userId	    varchar2(50)    not null unique
@@ -45,7 +46,7 @@ create table UserInfo(
 );
 create SEQUENCE userNo_Seq;
 
---ÆÄÀÏ °ü¸® Å×ÀÌºí
+--íŒŒì¼ ê´€ë¦¬ í…Œì´ë¸”
 create table FileMng(
     file_seq	    number          primary key
     , originalName	varchar2(200)   not null
@@ -54,7 +55,7 @@ create table FileMng(
 );
 create SEQUENCE file_seq;
 
---Ä£±¸(ÀÏÃÌ) Å×ÀÌºí
+--ì¹œêµ¬(ì¼ì´Œ) í…Œì´ë¸”
 create table UserFriends(
     UserFriends_Seq	number          primary key
     , UserOwner 	number    references UserInfo(UserNo) on delete cascade
@@ -63,7 +64,7 @@ create table UserFriends(
 );
 create SEQUENCE UserFriends_Seq;
 
---¹Ì´ÏÈ¨ÇÇ Á¤º¸
+--ë¯¸ë‹ˆí™ˆí”¼ ì •ë³´
 create table MiniHomeMain( 
     miniH_Seq	    number          primary key
     , userId	    number          not null references UserInfo(UserNo) on delete cascade
@@ -74,7 +75,7 @@ create table MiniHomeMain(
 );
 create sequence miniH_Seq;
 
---¹Ì´ÏÈ¨ÇÇ ¹æ¹®ÀÚÃ¼Å© (daily unique) & ÃÖ±Ù¹æ¹®ÀÚ ¸ñ·ÏÈ®ÀÎ¿ë
+--ë¯¸ë‹ˆí™ˆí”¼ ë°©ë¬¸ìì²´í¬ (daily unique) & ìµœê·¼ë°©ë¬¸ì ëª©ë¡í™•ì¸ìš©
 create table MiniHits(
     miniHits_Seq	number          primary key
     , userId	    number          not null references UserInfo(UserNo) on delete cascade
@@ -83,7 +84,7 @@ create table MiniHits(
 );
 create sequence miniHits_Seq;
 
---¹æ¸í·Ï
+--ë°©ëª…ë¡
 create table GuestBook(
     guestBook_Seq	number          primary key
     , userId	    number          not null references UserInfo(UserNo) on delete cascade
@@ -94,7 +95,7 @@ create table GuestBook(
 );
 create sequence guestBook_Seq;
 
---¹æ¸í·Ï ´ñ±Û
+--ë°©ëª…ë¡ ëŒ“ê¸€
 create table GuestBookComment(
     guestBookComment_Seq	number          primary key
     , guestBook_seq	        number          not null references GuestBook(guestBook_Seq) on delete cascade
@@ -102,14 +103,14 @@ create table GuestBookComment(
     , writeDate	            date            default sysdate
     , content	            Varchar2(500)   not null
     , parentSeq	            number          --references guestBookComment_Seq
-    , rcvId	                number          references UserInfo(UserNo) on delete cascade --@id·Î ¾Ë¸±°æ¿ì »ç¿ë
+    , rcvId	                number          references UserInfo(UserNo) on delete cascade --@idë¡œ ì•Œë¦´ê²½ìš° ì‚¬ìš©
 );
 create sequence guestBookComment_Seq;
 
---°Ô½ÃÆÇ (ÆÇ) & °øÁö»çÇ×
+--ê²Œì‹œíŒ (íŒ) & ê³µì§€ì‚¬í•­
 create table FreeBoard(
     board_Seq	    number          primary key
-    , boardname	    varchar2(20)    not null        --°Ô½ÃÆÇ±¸ºĞ
+    , boardname	    varchar2(20)    not null        --ê²Œì‹œíŒêµ¬ë¶„
     , writerId	    number          not null references UserInfo(UserNo) on delete cascade
     , writeDate 	date            default sysdate
     , title	        Varchar2(150)   not null
@@ -119,7 +120,7 @@ create table FreeBoard(
 );
 create sequence board_Seq;
 
---°Ô½ÃÆÇ ´ñ±Û
+--ê²Œì‹œíŒ ëŒ“ê¸€
 create table FreeBoardComment(
     boardComments_Seq	number          primary key
     , board_Seq	        number          not null references FreeBoard(board_Seq) on delete cascade
@@ -127,12 +128,12 @@ create table FreeBoardComment(
     , writeDate     	date            default sysdate
     , content	        Varchar2(500)
     , parentSeq	        number
-    , rcvId	            number          references UserInfo(UserNo) on delete cascade --@id·Î ¾Ë¸±°æ¿ì »ç¿ë
-    , deleteFlag        number(1)		default 0 -- »èÁ¦½Ã [ÀÏ¹İ°Ô, Å¬·´°Ô´Â deleteFlag Ã¼Å©ÇØ¼­ [»èÁ¦ÇÑ ´ñ±ÛÀÔ´Ï´Ù.]·Î Ç¥½Ã 
+    , rcvId	            number          references UserInfo(UserNo) on delete cascade --@idë¡œ ì•Œë¦´ê²½ìš° ì‚¬ìš©
+    , deleteFlag        number(1)		default 0 -- ì‚­ì œì‹œ [ì¼ë°˜ê²Œ, í´ëŸ½ê²ŒëŠ” deleteFlag ì²´í¬í•´ì„œ [ì‚­ì œí•œ ëŒ“ê¸€ì…ë‹ˆë‹¤.]ë¡œ í‘œì‹œ 
 );
 create sequence boardComments_Seq;
 
---Å¬·´ ¸®½ºÆ®
+--í´ëŸ½ ë¦¬ìŠ¤íŠ¸
 create table ClubList(
     club_Seq	    number          primary key
     , clubName	    Varchar2(150)   not null
@@ -141,7 +142,7 @@ create table ClubList(
 );
 create sequence club_Seq;
 
---Å¬·´ °Ô½ÃÆÇ
+--í´ëŸ½ ê²Œì‹œíŒ
 create table ClubBoard(
     clubboard_Seq	    number          primary key
     , club_Seq	        number          not null references  ClubList(club_Seq)
@@ -156,7 +157,7 @@ create table ClubBoard(
 );
 create sequence clubboard_Seq;
 
---Å¬·´ °Ô½ÃÆÇ ´ñ±Û
+--í´ëŸ½ ê²Œì‹œíŒ ëŒ“ê¸€
 create table ClubBoardComment(
     clubboardComments_Seq	number          primary key
     , clubboard_Seq	        number          not null references ClubBoard(clubboard_Seq) on delete cascade
@@ -164,32 +165,40 @@ create table ClubBoardComment(
     , writeDate           	date            default sysdate
     , content	            Varchar2(500)
     , parentSeq	            number
-    , rcvId	                number          references UserInfo(UserNo) on delete cascade --@id·Î ¾Ë¸±°æ¿ì »ç¿ë
-    , deleteFlag            number(1)		default 0 -- »èÁ¦½Ã [ÀÏ¹İ°Ô, Å¬·´°Ô´Â deleteFlag Ã¼Å©ÇØ¼­ [»èÁ¦ÇÑ ´ñ±ÛÀÔ´Ï´Ù.]·Î Ç¥½Ã
+    , rcvId	                number          references UserInfo(UserNo) on delete cascade --@idë¡œ ì•Œë¦´ê²½ìš° ì‚¬ìš©
+    , deleteFlag            number(1)		default 0 -- ì‚­ì œì‹œ [ì¼ë°˜ê²Œ, í´ëŸ½ê²ŒëŠ” deleteFlag ì²´í¬í•´ì„œ [ì‚­ì œí•œ ëŒ“ê¸€ì…ë‹ˆë‹¤.]ë¡œ í‘œì‹œ
 );
 create sequence clubboardComments_Seq;
 
---Å¬·´ È¸¿ø ¸ñ·Ï
+--í´ëŸ½ íšŒì› ëª©ë¡
 create table ClubMember(
     clubmember_Seq	    number          primary key
     , userId	        number          not null references UserInfo(UserNo) on delete cascade
     , club_Seq	        number          not null references ClubList(club_Seq) on delete cascade
-    , clubmember_level	number(1)       default 1          -- Å¬·´³» µî±Ş
+    , clubmember_level	number(1)       default 1          -- í´ëŸ½ë‚´ ë“±ê¸‰
     , club_joindate	    date            default sysdate
 );
 create sequence clubmember_Seq;
 
---Å¬·´ ·¹º§¿¡ ´ëÇÑ Á¤º¸ ( º°Äª µî )
+--í´ëŸ½ ë ˆë²¨ì— ëŒ€í•œ ì •ë³´ ( ë³„ì¹­ ë“± )
 create table Clubmemberlevel(
     clubmemberlevel_Seq	    number          primary key
-    , club_Seq	            number          not null references ClubList(club_Seq) on delete cascade        --¾î´ÀÅ¬·´ÀÎÁö
+    , club_Seq	            number          not null references ClubList(club_Seq) on delete cascade        --ì–´ëŠí´ëŸ½ì¸ì§€
     , clubmemberlevel   	number(1)       
-    , clubmemberlevel_name	Varchar2(50)    not null            --º°Äª
+    , clubmemberlevel_name	Varchar2(50)    not null            --ë³„ì¹­
 );
 create sequence clubmember_level_Seq;
 
--- Å¬·´ °ü¸®°ü·Ã ·¹ÀÌ¾Æ¿ô ¼³Á¤¸Ş´º
+-- í´ëŸ½ ê´€ë¦¬ê´€ë ¨ ë ˆì´ì•„ì›ƒ ì„¤ì •ë©”ë‰´
 create table ClubLayout(
     club_Seq	number      not null references ClubList(club_Seq) on delete cascade
     , clubMgr_Layout	Number(1)
 );
+
+--sample here for check minihome
+insert into userinfo values(userno_seq.nextval, 'cy@world.net', '1234', 'test1', '010-1234-5678', '1999-01-01', sysdate, 0);
+insert into userinfo values(userno_seq.nextval, 'pikachu@scit.net', '1234', 'test2', '010-2222-2222', '1999-01-01', sysdate, 0);
+insert into userinfo values(userno_seq.nextval, 'koneko@scit.net', '1234', 'test3', '010-3333-3333', '1999-01-01', sysdate, 0);
+insert into filemng values(file_seq.nextval, 'cyworld_photo.jpg', '190125.jpg', 'd:/syworld/blahblah');
+insert into MiniHomeMain values( minih_seq.nextval, 1, 1, 'hi', 1, 0);
+insert into minihits values(minihits_seq.nextval, 1, 2, sysdate);

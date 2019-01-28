@@ -26,5 +26,7 @@
 </form>
 <input type="button" value="회원가입" onclick="location.href='signup'">
 
+<h1>test place here</h1>
+<a href="minihome">minihome으로</a>
 </body>
 </html>
