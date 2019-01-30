@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- SQL -->
+<mapper namespace="it.just.practicessssss.dao.FileMapper">
+	<insert id="insertFile" parameterType="Filemng">
+		insert into FILEMNG values(
+			#{file_seq}
+			, #{originalname}
+			, #{savename}
+			, #{path}
+		)
+	</insert>
+
+	<select id="getSeqUpload"  resultType="int">
+		select FILE_SEQ.nextval from dual
+	</select>
+	
+	
+</mapper>

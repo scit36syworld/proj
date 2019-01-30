@@ -5,8 +5,14 @@
 <configuration>
 	<typeAliases>
 		<typeAlias type="it.just.practicessssss.vo.Userinfo" alias="Userinfo" />
+		<typeAlias type="it.just.practicessssss.vo.Freeboard" alias="Freeboard" />
+		<typeAlias type="it.just.practicessssss.vo.Filemng" alias="Filemng" />
+		<typeAlias type="it.just.practicessssss.util.Page" alias="Page" />
 	</typeAliases>
 	<mappers>
 		<mapper resource="signupMapper.xml" />
+		<mapper resource="loginMapper.xml" />
+		<mapper resource="freeboardMapper.xml" />
+		<mapper resource="fileMapper.xml" />
 	</mappers>
 </configuration>

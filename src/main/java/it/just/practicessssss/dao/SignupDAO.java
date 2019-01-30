@@ -26,6 +26,8 @@ public class SignupDAO {
 	public int insertUserinfo(Userinfo uif) {
 		SignupMapper mapper = sqlsession.getMapper(SignupMapper.class);
 		int result = mapper.insertUserinfo(uif);
+		if(result !=0)
+			return result;
 		return 0;
 	}
 }

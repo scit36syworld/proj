@@ -1,18 +1,25 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
 <title>Sign up</title>
 <script type="text/javascript">
+	<c:if test="${msg!=null}">
+	alert('${msg}');
+	</c:if>
+
 	var d = document;
 	function changefocus(obj, param){
-		if(obj.value==''){
+		if(obj.value.trim().length==0){
 			if(param=='userpw'){
 				d.getElementById('pwcheck').style.display = 'block';
+				d.getElementById('userpw').focus();
 			} else if(param=='username'){
 				d.getElementById('namecheck').style.display = 'block';
+				d.getElementById('username').focus();
 			}
 		} else {
 			if(param=='userpw'){
@@ -61,7 +68,7 @@
 		<tr>
 			<td>
 				비밀번호<br>
-				<input type="password" name="userpw" id="userpw" value="${uvo.userpw }" onblur="changefocus(this,'userpw')"><br>
+				<input type="password" name="userpw" id="userpw" value="${uivo.userpw }" onblur="changefocus(this,'userpw')"><br>
 				<div class="check" id="pwcheck" style="display:none">비밀번호를 입력해주세요. </div>
 			</td>
 			
@@ -77,20 +84,20 @@
 		<tr>
 			<td>
 				이름
-				<input type="text" name="username" id="username" value="${uvo.username }" onblur="changefocus(this,'username')"><br>
+				<input type="text" name="username" id="username" value="${uivo.username }" onblur="changefocus(this,'username')"><br>
 				<div class="check" id="namecheck" style="display:none">이름을 입력해주세요. </div>
 			</td>
 		</tr>
 		<tr>
 			<td>
 				핸드폰번호 
-				<input type="text" name="userphone" id="userphone" value="${uvo.userphone }">
+				<input type="text" name="userphone" id="userphone" value="${uivo.userphone }">
 			</td>
 		</tr>
 		<tr>
 			<td>
 				생년월일 
-				<input type="date" name="userbirth" id="userbirth" value="${uvo.userbirth }">
+				<input type="date" name="userbirth" id="userbirth" value="${uivo.userbirth }">
 			</td>
 		</tr>
 		<tr>

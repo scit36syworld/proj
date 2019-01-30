@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- SQL -->
+<mapper namespace="it.just.practicessssss.dao.FreeboardMapper">
+	
+	<select id="getNextSeq">
+		select BOARD_SEQ.currval from dual
+	</select>
+	
+	<insert id="insertFreeboard" parameterType="Freeboard">
+		insert into (
+			BOARD_SEQ
+			, BOARDNAME
+			, WRITERID
+			, TITLE
+			, CONTENT
+			) values(
+			BOARD_SEQ.nextval
+			, #{boardname}
+			, #{writerid}
+			, #{title}
+			, #{content}
+			)
+			
+	</insert>
+	
+	<select id="getNotice" resultType="Page">
+	<![CDATA[
+		select
+			BOARD_SEQ
+			, BOARDNAME
+			, WRITERID
+			, WRITEDATE
+			, TITLE
+			, CONTENT
+			, UPLOADFILE
+			, BOARD_HITS
+		from
+			(
+			select
+				BOARD_SEQ
+				, BOARDNAME
+				, WRITERID
+				, WRITEDATE
+				, TITLE
+				, CONTENT
+				, UPLOADFILE
+				, BOARD_HITS
+				, rownum rnum
+			from
+				Freeboard
+			order by
+				WRITEDATE
+			)
+		where
+			BOARDNAME = 'notice'
+		and
+			rnum <6
+		]]>
+	</select>
+	
+	<select id="getPage" parameterType="Page" resultType="Page">
+		select 
+			1 as first
+			, CEIL(count(*)/#{view}) as last 
+		from
+			Freeboard
+		<include refid="searchpage"></include>
+	</select>
+	<!-- page 동적쿼리 -->
+	<sql id="searchpage">
+		<if test="searchtype!=null">
+		where
+		<choose>
+			<when test="searchtype=='title'">title</when>
+			<when test="searchtype=='writerid'">writerid</when>
+			<when test="searchtype=='content'">content</when>
+		</choose>
+		like '%'||#{searchvalue}||'%'
+		</if>
+	</sql>
+	
+	
+	
+	<select id="getBoard" parameterType="Page" resultType="Freeboard">
+		select
+			BOARD_SEQ
+			, BOARDNAME
+			, WRITERID
+			, WRITEDATE
+			, TITLE
+			, CONTENT
+			, UPLOADFILE
+			, BOARD_HITS
+		from
+			(
+			select 
+				BOARD_SEQ
+				, BOARDNAME
+				, WRITERID
+				, WRITEDATE
+				, TITLE
+				, CONTENT
+				, UPLOADFILE
+				, BOARD_HITS
+				, rownum rnum
+			from
+				Freeboard
+			order by
+				WRITEDATE desc
+			)
+			where
+				rnum between (1+#{view}*(#{page}-1)) and (#{view}*#{page})
+			and
+				BOARDNAME = 'freeboard'
+		<include refid="searchboard"></include>
+	</select>
+	<!-- 검색시 사용되는 동적쿼리 -->
+	<sql id="searchboard">
+		<if test="searchtype!=null">
+		and
+		<choose>
+			<when test="searchtype=='title'">title</when>
+			<when test="searchtype=='writerid'">writerid</when>
+			<when test="searchtype=='content'">content</when>
+		</choose>
+		 like '%'||#{searchvalue}||'%'
+		</if>
+	</sql>
+
+</mapper>

@@ -23,9 +23,15 @@ public class SignupController {
 	
 	//회원가입 창열기
 	@RequestMapping(value="signup", method=RequestMethod.POST)
-	public String signup(Userinfo uif, Model model) {
-		int result = sdao.insertUserinfo(uif);
-		return "signup";
+	public String signup(Userinfo uivo, Model model) {
+		int result = sdao.insertUserinfo(uivo);
+		
+		if(result<1) {
+			model.addAttribute("uivo", uivo);
+			model.addAttribute("msg", "오류 : 가입실패 <br>필수 입력정보를 확인해주세요");
+			return "signup";
+		}
+		return "redirect:/";
 	}
 	
 	//idcheck 창열기

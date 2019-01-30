@@ -10,3 +10,9 @@
  	jsp-> signup.jsp, idcheck.jsp 추가
  	Signup 관련 Mapper, DAO, controller 추가.
  	//회원가입단 동작확인 아직
+ 	
+ 190130_0915 @pika
+ 	회원가입가능.
+ 	로그인가능.
+ 	게시판 글쓰기 가능 // 파일첨부 아직 오류남
+ 	검색, 페이징 (미완성)
