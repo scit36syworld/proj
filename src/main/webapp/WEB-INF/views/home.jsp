@@ -33,8 +33,10 @@
 		<input type="button" value="회원가입" onclick="location.href='signup'">
 	</form>
 	</c:otherwise>
-
 </c:choose>
 <a href="freeboardmain"> 자유게시판으로</a>
+<h1>test place here</h1>
+<a href="minihome">minihome으로</a>
+
 </body>
 </html>

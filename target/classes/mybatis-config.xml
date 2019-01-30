@@ -8,11 +8,16 @@
 		<typeAlias type="it.just.practicessssss.vo.Freeboard" alias="Freeboard" />
 		<typeAlias type="it.just.practicessssss.vo.Filemng" alias="Filemng" />
 		<typeAlias type="it.just.practicessssss.util.Page" alias="Page" />
+		<typeAlias type="it.just.practicessssss.vo.Minihome" alias="Minihome" />
+		<typeAlias type="it.just.practicessssss.vo.Minihits" alias="Minihits" />
 	</typeAliases>
 	<mappers>
 		<mapper resource="signupMapper.xml" />
 		<mapper resource="loginMapper.xml" />
 		<mapper resource="freeboardMapper.xml" />
 		<mapper resource="fileMapper.xml" />
+		<mapper resource="minihomeMapper.xml" />
+		<mapper resource="minihitsMapper.xml" />
+
 	</mappers>
 </configuration>

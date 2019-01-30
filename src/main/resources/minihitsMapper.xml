@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- SQL -->
+<mapper namespace="it.just.practicessssss.mapper.MinihitsMapper">
+
+	<select id="selectOne" parameterType="int" resultType="String">
+		select distinct userid 
+		FROM (
+			SELECT i.userid, rownum
+			FROM MINIHITS h JOIN userinfo i ON i.userno=h.visitorid
+			WHERE h.userid=1
+			ORDER BY h.datelogger DESC
+		)
+	</select>
+
+	<insert id="insertOne" parameterType="Minihits">
+		INSERT INTO MINIHITS
+		VALUES(
+		minihits_seq.nextval, #{userid}, #{visitorid}, sysdate
+		)
+	</insert>
+
+</mapper>

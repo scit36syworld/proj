@@ -1,4 +1,4 @@
-package it.just.practicessssss.dao;
+package it.just.practicessssss.mapper;
 
 import it.just.practicessssss.vo.Userinfo;
 
