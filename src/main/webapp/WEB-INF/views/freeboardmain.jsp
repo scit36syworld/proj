@@ -6,9 +6,21 @@
 <head>
 <meta charset="UTF-8">
 <title>게시판임니다.</title>
+<script type="text/javascript">
+	function forview(seq){
+		var f = document.forView;
+		f.board_seq.value= seq;
+		f.action="freeboardview";
+		f.method="post";
+		f.submit();
+	}
+</script>
 </head>
 <body>
 <h2>자유게시판</h2>
+<form name="forView">
+	<input type="hidden" name="board_seq">
+</form>
 <input type="button" value="글쓰기" onclick="location.href='freeboardwrite'">
 <table>
 	<tr>
@@ -42,7 +54,8 @@
 		<c:forEach var="board" items="${notice }">
 			<tr>
 				<td>${board.board_seq }</td>
-				<td>${board.title }</td>
+				<td><a href="javascript:forview('${board.board_seq }')">${board.title }</a></td>
+				<%-- <td><a href="freeboardView?board_seq=${board.board_seq }">${board.title }</a></td> --%>
 				<td>${board.writerid }</td>
 				<td>${board.writedate }</td>
 				<td>${board.board_hits }</td>

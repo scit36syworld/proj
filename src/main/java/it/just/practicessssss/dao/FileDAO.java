@@ -24,4 +24,11 @@ public class FileDAO {
 		int map = mapper.getSeqUpload();
 		return map;
 	}
+
+	public int setUploadfile(int board_seq, int file_seq) {
+		FileMapper mapper = sqlsession.getMapper(FileMapper.class);
+		int result = mapper.setUploadfile(board_seq,file_seq);
+		
+		return result;
+	}
 }

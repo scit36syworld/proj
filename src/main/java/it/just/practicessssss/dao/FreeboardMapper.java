@@ -4,6 +4,7 @@ import java.util.List;
 
 import it.just.practicessssss.util.Page;
 import it.just.practicessssss.vo.Freeboard;
+import it.just.practicessssss.vo.Freeboardcomment;
 
 public interface FreeboardMapper {
 
@@ -15,7 +16,11 @@ public interface FreeboardMapper {
 
 	int insertFreeboard(Freeboard fb);
 
-	int getNextSeq();
+	int getCurrentSeq();
+
+	Freeboard freeboardSelectOne(int board_seq);
+
+	List<Freeboardcomment> freeboardComments(int board_seq);
 
 	
 

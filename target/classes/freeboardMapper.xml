@@ -6,7 +6,7 @@
 <!-- SQL -->
 <mapper namespace="it.just.practicessssss.dao.FreeboardMapper">
 	
-	<select id="getNextSeq">
+	<select id="getCurrentSeq">
 		select BOARD_SEQ.currval from dual
 	</select>
 	
@@ -130,5 +130,39 @@
 		 like '%'||#{searchvalue}||'%'
 		</if>
 	</sql>
-
+	
+	
+	<!-- 게시글 내용 보기 -->
+	<select id="freeboardSelectOne" parameterType="int" resultType="Freeboard">
+		select 
+			BOARD_SEQ
+			, BOARDNAME
+			, WRITERID
+			, WRITEDATE
+			, TITLE
+			, CONTENT
+			, UPLOADFILE
+			, BOARD_HITS
+		from
+			FreeBoard
+		where
+			BOARD_SEQ = #{board_seq}
+	</select>
+	
+	<select id="freeboardComments" parameterType="int" resultType="Freeboardcomment">
+		select 
+			BOARDCOMMENTS_SEQ
+			, BOARD_SEQ
+			, WRITERID
+			, WRITEDATE
+			, CONTENT
+			, PARENTSEQ
+			, RCVID
+			, DELETEFLAG
+		from
+			FREEBOARDCOMMENT
+		where
+			BOARDCOMMENTS_SEQ = #{BOARDCOMMENTS_SEQ}
+	</select>
+	
 </mapper>

@@ -18,5 +18,13 @@
 		select FILE_SEQ.nextval from dual
 	</select>
 	
+	<update id="setUploadfile">
+		update 
+			FreeBoard
+		set
+			UPLOADFILE = #{file_seq}
+		where
+			BOARD_SEQ = #{board_seq}
+	</update>
 	
 </mapper>

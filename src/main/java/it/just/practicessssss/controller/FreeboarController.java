@@ -21,6 +21,7 @@ import it.just.practicessssss.util.FileService;
 import it.just.practicessssss.util.Page;
 import it.just.practicessssss.vo.Filemng;
 import it.just.practicessssss.vo.Freeboard;
+import it.just.practicessssss.vo.Freeboardcomment;
 
 @Controller
 public class FreeboarController {
@@ -84,33 +85,82 @@ public class FreeboarController {
 	}
 	
 	@RequestMapping(value="gofreeboardwrite", method=RequestMethod.POST)
-	public String sendfreeboardwrite(Freeboard fb, MultipartFile upload, HttpSession session,Model model) {
-		logger.info("{}",fb);
+	public String sendfreeboardwrite(Freeboard fvo, MultipartFile upload, HttpSession session,Model model) {
+		logger.info("{}",fvo);
 		logger.info("{}",upload);
-		int result = fdao.insertFreeboard(fb);
+		int result = fdao.insertFreeboard(fvo);
+		if(result<1) {
+			model.addAttribute("msg", "글쓰기 에러 다시 시도해주세요");
+			model.addAttribute("fvo", fvo);
+			return "freeboardwrite";
+		}
+		int board_seq = fdao.getCurrentSeq();	//board seq currval
 		if(!upload.isEmpty()) {
-			String path = uploadpath + fb.getBoardname(); //"d:/syworld/board/"+"freeboard"
+			String path = uploadpath + fvo.getBoardname(); //"d:/syworld/board/"+"freeboard"
 			
-			int file_seq = fd.getSeqUpload();
-			int board_seq = fdao.getNextSeq();
-			
+			int file_seq = fd.getSeqUpload();	//파일seq nextval
 			logger.info("{}",file_seq);
+			
 			String savename=board_seq+"_"+"1";		//map.get("files");
 			savename = FileService.saveFile(upload, path, savename);
-			Filemng fm = new Filemng(file_seq,upload.getOriginalFilename(), savename, path);
+			Filemng fm = new Filemng(file_seq,upload.getOriginalFilename(), savename, path);//db전송용 fmg객체.
 			logger.info("{}",fm);
+
 			int up = fd.insertFile(fm);
-			if(up!=1) {
+			if(up<1) {
 				FileService.deleteFile(path+"/"+savename);
 				model.addAttribute("msg", "파일 업로드 에러 다시 시도해주세요");
 				return "freeboardwrite";
 			}
-			fb.setUploadfile(file_seq);
+			fd.setUploadfile(board_seq, file_seq);
+			
 			logger.info("업로드완료");
 		}
-		logger.info("{}",fb);
-		return "freeboardwrite";
+		fvo=fdao.freeboardSelectOne(board_seq);
+		model.addAttribute("fvo", fvo);
+		logger.info("{}",fvo);
+		return "freeboardview";
 	}
 	
+	@RequestMapping(value="freeboardview", method=RequestMethod.POST)
+	public String freeboardview(Model model, int board_seq) {
+		Freeboard fvo = fdao.freeboardSelectOne(board_seq);
+		List<Freeboardcomment> commentlist = fdao.freeboardComments(board_seq);
+		model.addAttribute("fvo", fvo);
+		model.addAttribute("commentlist",commentlist);
+		
+		return "freeboardview";
+	}
+	
+	
+	
+//	@RequestMapping(value="filetest", method=RequestMethod.GET)
+//	public String filetestf() {
+//		return "forfiletest";
+//	}
+//	
+//	@RequestMapping(value="filetest", method=RequestMethod.POST)
+//	public String filetest(Model model, Freeboard fvo, MultipartFile upload) {
+//		logger.info("{}", fvo);
+//		logger.info("{}", upload);
+//		if(!upload.isEmpty()) {
+//			String path = uploadpath + fvo.getBoardname(); // "d:/syworld/board/"+"freeboard"
+//
+//			int file_seq = fd.getSeqUpload(); // 파일seq nextval
+//			int board_seq = fdao.getCurrentSeq(); // board seq currval
+//			logger.info("{}", file_seq);
+//
+//			String savename = board_seq + "_" + "1"; // map.get("files");
+//			savename = FileService.saveFile(upload, path, savename);
+//			Filemng fm = new Filemng(file_seq, upload.getOriginalFilename(), savename, path);// db전송용 fmg객체.
+//			logger.info("{}", fm);
+//
+//			int up = fd.insertFile(fm);
+//
+//				
+//		}
+//		
+//		return "forfiletest";
+//	}
 	
 }

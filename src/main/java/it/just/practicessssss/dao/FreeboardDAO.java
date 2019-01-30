@@ -8,6 +8,7 @@ import org.springframework.stereotype.Repository;
 
 import it.just.practicessssss.util.Page;
 import it.just.practicessssss.vo.Freeboard;
+import it.just.practicessssss.vo.Freeboardcomment;
 
 @Repository
 public class FreeboardDAO {
@@ -41,9 +42,21 @@ public class FreeboardDAO {
 		return result;
 	}
 
-	public int getNextSeq() {
+	public int getCurrentSeq() {
 		FreeboardMapper mapper = sqlsession.getMapper(FreeboardMapper.class);
-		int result = mapper.getNextSeq();
+		int result = mapper.getCurrentSeq();
 		return result;
+	}
+
+	public Freeboard freeboardSelectOne(int board_seq) {
+		FreeboardMapper mapper = sqlsession.getMapper(FreeboardMapper.class);
+		Freeboard result = mapper.freeboardSelectOne(board_seq);
+		return result;
+	}
+
+	public List<Freeboardcomment> freeboardComments(int board_seq) {
+		FreeboardMapper mapper = sqlsession.getMapper(FreeboardMapper.class);
+		List<Freeboardcomment> list = mapper.freeboardComments(board_seq);
+		return list;
 	}
 }

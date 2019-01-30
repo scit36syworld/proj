@@ -6,6 +6,7 @@
 	<typeAliases>
 		<typeAlias type="it.just.practicessssss.vo.Userinfo" alias="Userinfo" />
 		<typeAlias type="it.just.practicessssss.vo.Freeboard" alias="Freeboard" />
+		<typeAlias type="it.just.practicessssss.vo.Freeboardcomment" alias="Freeboardcomment" />
 		<typeAlias type="it.just.practicessssss.vo.Filemng" alias="Filemng" />
 		<typeAlias type="it.just.practicessssss.util.Page" alias="Page" />
 		<typeAlias type="it.just.practicessssss.vo.Minihome" alias="Minihome" />
