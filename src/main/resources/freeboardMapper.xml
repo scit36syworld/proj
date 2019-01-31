@@ -6,19 +6,19 @@
 <!-- SQL -->
 <mapper namespace="it.just.practicessssss.dao.FreeboardMapper">
 	
-	<select id="getCurrentSeq">
-		select BOARD_SEQ.currval from dual
+	<select id="getNextSeq" resultType="int">
+		select BOARD_SEQ.nextval from dual
 	</select>
 	
 	<insert id="insertFreeboard" parameterType="Freeboard">
-		insert into (
+		insert into Freeboard (
 			BOARD_SEQ
 			, BOARDNAME
 			, WRITERID
 			, TITLE
 			, CONTENT
 			) values(
-			BOARD_SEQ.nextval
+			#{board_seq}
 			, #{boardname}
 			, #{writerid}
 			, #{title}

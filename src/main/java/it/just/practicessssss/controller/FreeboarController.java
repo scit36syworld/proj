@@ -39,7 +39,7 @@ public class FreeboarController {
 	
 	@RequestMapping(value="freeboardmain", method=RequestMethod.GET)
 	public String freeboardmain(Model model, Page pvo) {
-		
+		logger.info("{}",pvo);
 		if(pvo.getPage()==0) {
 			pvo.setPage(1);
 		}
@@ -64,19 +64,20 @@ public class FreeboarController {
 		logger.info("{}",list+"controller");
 		model.addAttribute("notice", notice);
 		model.addAttribute("list",list);
+		
 		return "freeboardmain";
 	}
 	
-	@RequestMapping(value="freeboardsearchpage", method=RequestMethod.GET)
-	public String freeboardsearchpage(Model model, Page pvo) {
-		Page result = fdao.getPage(pvo);
-		if(pvo.getSearchtype()!=null) {
-			result.setSearchtype(pvo.getSearchtype());
-			result.setSearchvalue(pvo.getSearchvalue());
-		}
-		model.addAttribute("page", result);
-		return "freeboardmain";
-	}
+//	@RequestMapping(value="freeboardsearchpage", method=RequestMethod.GET)
+//	public String freeboardsearchpage(Model model, Page pvo) {
+//		Page result = fdao.getPage(pvo);
+//		if(pvo.getSearchtype()!=null) {
+//			result.setSearchtype(pvo.getSearchtype());
+//			result.setSearchvalue(pvo.getSearchvalue());
+//		}
+//		model.addAttribute("page", result);
+//		return "freeboardmain";
+//	}
 	
 	@RequestMapping(value="freeboardwrite", method=RequestMethod.GET)
 	public String boardwrite() {
@@ -88,13 +89,14 @@ public class FreeboarController {
 	public String sendfreeboardwrite(Freeboard fvo, MultipartFile upload, HttpSession session,Model model) {
 		logger.info("{}",fvo);
 		logger.info("{}",upload);
+		int board_seq = fdao.getNextSeq();	//board seq currval
+		fvo.setBoard_seq(board_seq);
 		int result = fdao.insertFreeboard(fvo);
 		if(result<1) {
 			model.addAttribute("msg", "글쓰기 에러 다시 시도해주세요");
 			model.addAttribute("fvo", fvo);
 			return "freeboardwrite";
 		}
-		int board_seq = fdao.getCurrentSeq();	//board seq currval
 		if(!upload.isEmpty()) {
 			String path = uploadpath + fvo.getBoardname(); //"d:/syworld/board/"+"freeboard"
 			
@@ -133,34 +135,5 @@ public class FreeboarController {
 	}
 	
 	
-	
-//	@RequestMapping(value="filetest", method=RequestMethod.GET)
-//	public String filetestf() {
-//		return "forfiletest";
-//	}
-//	
-//	@RequestMapping(value="filetest", method=RequestMethod.POST)
-//	public String filetest(Model model, Freeboard fvo, MultipartFile upload) {
-//		logger.info("{}", fvo);
-//		logger.info("{}", upload);
-//		if(!upload.isEmpty()) {
-//			String path = uploadpath + fvo.getBoardname(); // "d:/syworld/board/"+"freeboard"
-//
-//			int file_seq = fd.getSeqUpload(); // 파일seq nextval
-//			int board_seq = fdao.getCurrentSeq(); // board seq currval
-//			logger.info("{}", file_seq);
-//
-//			String savename = board_seq + "_" + "1"; // map.get("files");
-//			savename = FileService.saveFile(upload, path, savename);
-//			Filemng fm = new Filemng(file_seq, upload.getOriginalFilename(), savename, path);// db전송용 fmg객체.
-//			logger.info("{}", fm);
-//
-//			int up = fd.insertFile(fm);
-//
-//				
-//		}
-//		
-//		return "forfiletest";
-//	}
 	
 }

@@ -16,7 +16,7 @@ public interface FreeboardMapper {
 
 	int insertFreeboard(Freeboard fb);
 
-	int getCurrentSeq();
+	int getNextSeq();
 
 	Freeboard freeboardSelectOne(int board_seq);
 

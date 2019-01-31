@@ -42,9 +42,9 @@ public class FreeboardDAO {
 		return result;
 	}
 
-	public int getCurrentSeq() {
+	public int getNextSeq() {
 		FreeboardMapper mapper = sqlsession.getMapper(FreeboardMapper.class);
-		int result = mapper.getCurrentSeq();
+		int result = mapper.getNextSeq();
 		return result;
 	}
 
